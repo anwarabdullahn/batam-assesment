@@ -97,9 +97,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	const closeBtn = document.getElementById('close'),
 		chatBotForm = document.getElementById('chatBot-form'),
 		chatPhone = document.getElementById('chatBot-phone'),
+		chatName = document.getElementById('chatBot-name'),
 		chatContent = document.getElementById('chatContent'),
 		thankContentSubmit = document.getElementById('thankContentSubmit'),
-		thankContent = document.getElementById('thankContent');
+		thankContent = document.getElementById('thankContent'),
+		widgetConf = document.getElementById('widgetConf'),
+		vertical = document.getElementById('vertical'),
+		horizontal = document.getElementById('horizontal'),
+		name = document.getElementById('name'),
+		phone = document.getElementById('phone');
 
 	chatPhone.addEventListener('change', (e) =>
 		fetch(
@@ -130,6 +136,19 @@ document.addEventListener('DOMContentLoaded', () => {
 		e.preventDefault();
 		let inputName = document.getElementById('chatBot-name');
 		!error && doSubmit(inputName.value);
+	});
+
+	widgetConf.addEventListener('submit', (e) => {
+		e.preventDefault();
+		console.log('nganu');
+		console.log(vertical.value);
+		console.log('vertical', vertical);
+		kiosk({
+			vertical: vertical.option[vertical.selectedIndex].value,
+			horizontal: horizontal.option[horizontal.selectedIndex].value
+		});
+		chatPhone.value = phone.value;
+		chatName.value = name.value;
 	});
 
 	closeBtn.addEventListener('click', (e) => {
