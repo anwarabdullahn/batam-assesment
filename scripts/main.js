@@ -60,8 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		e.preventDefault();
 		console.log(vertical.value === 'top');
 
-		if (vertical.value !== 'top' || vertical.value !== 'bottom') return alert('Invalid Vertical Value');
-		if (horizontal.value !== 'left' || horizontal.value !== 'right') return alert('Invalid Horizontal Value');
+		if (vertical.value !== 'top' || vertical.value !== 'bottom' || vertical.value == '')
+			return alert('Invalid Vertical Value');
+		if (horizontal.value !== 'left' || horizontal.value !== 'right' || horizontal.value == '')
+			return alert('Invalid Horizontal Value');
 
 		kiosk({
 			vertical: vertical.value,
