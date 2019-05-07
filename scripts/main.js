@@ -5,42 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		chatBotMain = document.createElement('div'),
 		error = false;
 
-	const displayChat = (params) => {
-		if (params === 0) {
-			console.log('minimize');
-			chatBot.style.display = 'flex';
-			chatBotMain.style.display = 'none';
-		} else {
-			console.log('maximize');
-			chatBot.style.display = 'none';
-			chatBotMain.style.display = 'flex';
-		}
-	};
-
-	const doSubmit = (params) => {
-		fetch('https://jsonplaceholder.typicode.com/posts', {
-			method: 'POST',
-			body: JSON.stringify({
-				title: params,
-				body: 'bar',
-				userId: 1
-			}),
-			headers: {
-				'Content-type': 'application/json; charset=UTF-8'
-			}
-		})
-			.then((response) => response.json())
-			.then((json) => {
-				chatContent.style.display = 'none';
-				thankContent.style.display = 'flex';
-			});
-	};
-
-	const kiosk = (params) => {
-		params.vertical === 'top' ? (botContainer.style.top = '10px') : (botContainer.style.bottom = '10px');
-		params.horizontal === 'right' ? (botContainer.style.right = '10px') : (botContainer.style.left = '10px');
-	};
-
 	botContainer.style.position = 'fixed';
 	botContainer.style.display = 'flex';
 	botContainer.style.width = '400px';
@@ -80,16 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
 								</div>
 							`;
 
-	// vertical value must be top or bottom
-	// horizontal value must be right or left
-	kiosk({
-		vertical: 'bottom',
-		horizontal: 'right',
-		name: '',
-		phone: '',
-		email: 0
-	});
-
 	body.append(botContainer);
 	botContainer.append(chatBot);
 	botContainer.append(chatBotMain);
@@ -106,6 +60,44 @@ document.addEventListener('DOMContentLoaded', () => {
 		horizontal = document.getElementById('horizontal'),
 		name = document.getElementById('name'),
 		phone = document.getElementById('phone');
+
+	const displayChat = (params) => {
+		if (params === 0) {
+			console.log('minimize');
+			chatBot.style.display = 'flex';
+			chatBotMain.style.display = 'none';
+		} else {
+			console.log('maximize');
+			chatBot.style.display = 'none';
+			chatBotMain.style.display = 'flex';
+		}
+	};
+
+	const doSubmit = (params) => {
+		fetch('https://jsonplaceholder.typicode.com/posts', {
+			method: 'POST',
+			body: JSON.stringify({
+				title: params,
+				body: 'bar',
+				userId: 1
+			}),
+			headers: {
+				'Content-type': 'application/json; charset=UTF-8'
+			}
+		})
+			.then((response) => response.json())
+			.then((json) => {
+				chatContent.style.display = 'none';
+				thankContent.style.display = 'flex';
+			});
+	};
+
+	const kiosk = (params) => {
+		params.vertical === 'top' ? (botContainer.style.top = '10px') : (botContainer.style.bottom = '10px');
+		params.horizontal === 'right' ? (botContainer.style.right = '10px') : (botContainer.style.left = '10px');
+		chatPhone.value = params.phome;
+		chatName.value = params.name;
+	};
 
 	chatPhone.addEventListener('change', (e) =>
 		fetch(
@@ -140,15 +132,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	widgetConf.addEventListener('submit', (e) => {
 		e.preventDefault();
-		console.log('nganu');
+
 		console.log(vertical.value);
-		console.log('vertical', vertical);
+		console.log(horizontal.value);
+		if (!vertical.value === 'top' || !vertical.value === 'bottom' || vertical.value == '')
+			return alert('Invalid Vertical Value');
+
+		if (!horizontal.value === 'left' || !horizontal.value === 'right' || horizontal.value == '')
+			return alert('Invalid Horizontal Value');
+		!name.value == null ? (name.value = name.value) : (name.value = '');
+		!phone.value == null ? (phone.value = phone.value) : (phone.value = '');
 		kiosk({
-			vertical: vertical.option[vertical.selectedIndex].value,
-			horizontal: horizontal.option[horizontal.selectedIndex].value
+			vertical: vertical.value,
+			horizontal: horizontal.value,
+			phone: phone.value,
+			name: name.value
 		});
-		chatPhone.value = phone.value;
-		chatName.value = name.value;
 	});
 
 	closeBtn.addEventListener('click', (e) => {
@@ -162,5 +161,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	thankContentSubmit.addEventListener('click', (e) => {
 		chatContent.style.display = 'flex';
 		thankContent.style.display = 'none';
+	});
+
+	// vertical value must be top or bottom
+	// horizontal value must be right or left
+	kiosk({
+		vertical: 'bottom',
+		horizontal: 'right',
+		name: '',
+		phone: '',
+		email: 0
 	});
 });
