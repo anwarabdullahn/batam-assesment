@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-	let chatBot = document.createElement('div'),
-		botContainer = document.getElementById('forBot'),
+	let body = document.getElementsByTagName('body')[0],
+		botContainer = document.createElement('div'),
+		chatBot = document.createElement('div'),
 		chatBotMain = document.createElement('div'),
 		error = false;
 
@@ -30,8 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		})
 			.then((response) => response.json())
 			.then((json) => {
-				alert(`You will receive a call soon ${json.title}`);
-				window.location = '/end.html';
+				chatContent.style.display = 'none';
+				thankContent.style.display = 'flex';
 			});
 	};
 
@@ -40,19 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		botContainer.style.display = 'flex';
 		botContainer.style.width = '400px';
 		botContainer.style.zIndex = '3';
-
-		// botContainer.innerHTML = `
-		//                         <h3> name : ${params.name}</h3>
-		//                         <h4> phone : ${params.phone}</h4>
-		//                     `;
-
 		params.vertical === 'top' ? (botContainer.style.top = '10px') : (botContainer.style.bottom = '10px');
 		params.horizontal === 'right' ? (botContainer.style.right = '10px') : (botContainer.style.left = '10px');
 	};
 
 	chatBot.className = 'chatBot';
-	chatBot.style.position = 'fixed';
-	chatBot.style.display = 'none';
+	chatBot.style.display = 'flex';
 	chatBot.style.width = '400px';
 	chatBot.style.height = '90px';
 	chatBot.style.zIndex = '3';
@@ -61,21 +55,26 @@ document.addEventListener('DOMContentLoaded', () => {
 	chatBot.style.objectFit = 'fill';
 	chatBot.style.cursor = 'pointer';
 	chatBot.style.transition = 'all 0.3s ease';
-
 	chatBotMain.className = 'chatBot-main';
-	chatBotMain.innerHTML = ` <span id="close" class="close">x</span>
-								<h3>DO YOU WANT A CALLBACK ?</h3>
-								<span>Please give us your details and we will get back to you.</span>
-								<form id="chatBot-form">
-									<select class="form" id="chatBot-select">
-										<option value="I'm Interested in Content">I'm Interested in Content</option>
-										<option value="I'm Interested in Design">I'm Interested in Design</option>
-									</select>
-									<input class="form" id="chatBot-email" type="hidden" placeholder="email">
-									<input class="form" id="chatBot-phone" type="text" placeholder="phone">
-									<input class="form" id="chatBot-name" type="text" placeholder="name">
-									<button id="chatBot-submit" type="submit" class="chatBot-main-submit">Call Now</button>
-								</form>
+	chatBotMain.innerHTML = `<span id="close" class="close">x</span>
+								<div id='chatContent' style="flex-direction: column">
+									<h3>DO YOU WANT A CALLBACK ?</h3>
+									<span>Please give us your details and we will get back to you.</span>
+									<form id="chatBot-form">
+										<select class="form" id="chatBot-select">
+											<option value="I'm Interested in Content">I'm Interested in Content</option>
+											<option value="I'm Interested in Design">I'm Interested in Design</option>
+										</select>
+										<input class="form" id="chatBot-email" type="hidden" placeholder="email">
+										<input class="form" id="chatBot-phone" type="text" placeholder="phone" required>
+										<input class="form" id="chatBot-name" type="text" placeholder="name" required>
+										<button id="chatBot-submit" type="submit" class="chatBot-main-submit">Call Now</button>
+									</form>
+								</div>
+								<div id="thankContent" style="display: none; flex-direction: column">
+									<h3>Thanks You for Your Submit</h3>
+									<button id="thankContentSubmit" type="submit" class="chatBot-main-submit">Get a Callback</button>
+								</div>
 							`;
 
 	// vertical value must be top or bottom
@@ -88,12 +87,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		email: 0
 	});
 
+	body.append(botContainer);
 	botContainer.append(chatBot);
 	botContainer.append(chatBotMain);
 
 	const closeBtn = document.getElementById('close'),
 		chatBotForm = document.getElementById('chatBot-form'),
-		chatPhone = document.getElementById('chatBot-phone');
+		chatPhone = document.getElementById('chatBot-phone'),
+		chatContent = document.getElementById('chatContent'),
+		thankContentSubmit = document.getElementById('thankContentSubmit'),
+		thankContent = document.getElementById('thankContent');
 
 	chatPhone.addEventListener('change', (e) =>
 		fetch(
@@ -103,10 +106,21 @@ document.addEventListener('DOMContentLoaded', () => {
 			.then((response) => response.json())
 			.then((json) => {
 				if (!json.valid) {
+					let h3 = document.createElement('h3');
+					h3.innerHTML = 'nganu';
 					error = true;
-					alert('Phone InValid');
+					e.target.style.color = 'red';
+					e.target.style.borderStyle = 'solid';
+					e.target.style.borderWidth = '2px';
+					e.target.style.borderColor = 'red';
+					e.target.value = `${e.target.value} invalid phone number`;
 				} else {
 					error = false;
+					e.target.style.color = 'black';
+					e.target.style.borderStyle = 'solid';
+					e.target.style.borderWidth = '2px';
+					e.target.style.borderColor = 'green';
+					e.target.value = `${e.target.value} valid phone number`;
 				}
 			})
 	);
@@ -114,11 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	chatBotForm.addEventListener('submit', (e) => {
 		e.preventDefault();
 		let inputName = document.getElementById('chatBot-name');
-		if (error) {
-			alert('Phone InValid');
-		} else {
-			inputName.value.toLowerCase() === '' ? alert('Name cant be empty') : doSubmit(inputName.value);
-		}
+		!error && doSubmit(inputName.value);
 	});
 
 	closeBtn.addEventListener('click', (e) => {
@@ -127,5 +137,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	chatBot.addEventListener('click', (e) => {
 		displayChat(1);
+	});
+
+	thankContentSubmit.addEventListener('click', (e) => {
+		chatContent.style.display = 'flex';
+		thankContent.style.display = 'none';
 	});
 });
