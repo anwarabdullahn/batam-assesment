@@ -37,13 +37,16 @@ document.addEventListener('DOMContentLoaded', () => {
 	};
 
 	const kiosk = (params) => {
-		botContainer.style.position = 'fixed';
-		botContainer.style.display = 'flex';
-		botContainer.style.width = '400px';
-		botContainer.style.zIndex = '3';
 		params.vertical === 'top' ? (botContainer.style.top = '10px') : (botContainer.style.bottom = '10px');
 		params.horizontal === 'right' ? (botContainer.style.right = '10px') : (botContainer.style.left = '10px');
 	};
+
+	botContainer.style.position = 'fixed';
+	botContainer.style.display = 'flex';
+	botContainer.style.width = '400px';
+	botContainer.style.zIndex = '3';
+	botContainer.style.bottom = '10px';
+	botContainer.style.right = '10px';
 
 	chatBot.className = 'chatBot';
 	chatBot.style.display = 'flex';
@@ -113,14 +116,12 @@ document.addEventListener('DOMContentLoaded', () => {
 					e.target.style.borderStyle = 'solid';
 					e.target.style.borderWidth = '2px';
 					e.target.style.borderColor = 'red';
-					e.target.value = `${e.target.value} invalid phone number`;
 				} else {
 					error = false;
-					e.target.style.color = 'black';
+					e.target.style.color = 'green';
 					e.target.style.borderStyle = 'solid';
 					e.target.style.borderWidth = '2px';
 					e.target.style.borderColor = 'green';
-					e.target.value = `${e.target.value} valid phone number`;
 				}
 			})
 	);
