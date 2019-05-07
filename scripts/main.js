@@ -33,8 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			.then((response) => response.json())
 			.then((json) => {
 				if (!json.valid) {
-					let h3 = document.createElement('h3');
-					h3.innerHTML = 'nganu';
 					error = true;
 					e.target.style.color = 'red';
 					e.target.style.borderStyle = 'solid';
@@ -58,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	widgetConf.addEventListener('submit', (e) => {
 		e.preventDefault();
-		
+
 		if (vertical.value !== 'top' && vertical.value !== 'bottom') return alert('Invalid Vertical Value');
 		if (horizontal.value !== 'left' && horizontal.value !== 'right') return alert('Invalid Horizontal Value');
 
