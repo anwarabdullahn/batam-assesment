@@ -3,6 +3,8 @@ const kiosk = (params) => {
 		chatPhone = document.getElementById('chatBot-phone'),
 		chatName = document.getElementById('chatBot-name');
 
+	console.log('params', params);
+
 	params.vertical === 'top' ? (botContainer.style.top = '10px') : (botContainer.style.bottom = '10px');
 	params.horizontal === 'right' ? (botContainer.style.right = '10px') : (botContainer.style.left = '10px');
 
