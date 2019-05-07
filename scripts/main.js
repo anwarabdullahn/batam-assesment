@@ -95,7 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	const kiosk = (params) => {
 		params.vertical === 'top' ? (botContainer.style.top = '10px') : (botContainer.style.bottom = '10px');
 		params.horizontal === 'right' ? (botContainer.style.right = '10px') : (botContainer.style.left = '10px');
-		chatPhone.value = params.phome;
+
+		chatPhone.value = params.phone;
 		chatName.value = params.name;
 	};
 
@@ -140,8 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		if (!horizontal.value === 'left' || !horizontal.value === 'right' || horizontal.value == '')
 			return alert('Invalid Horizontal Value');
-		!name.value == null ? (name.value = name.value) : (name.value = '');
-		!phone.value == null ? (phone.value = phone.value) : (phone.value = '');
+
 		kiosk({
 			vertical: vertical.value,
 			horizontal: horizontal.value,
