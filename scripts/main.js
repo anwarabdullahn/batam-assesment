@@ -1,48 +1,13 @@
+import botContainer from './views/chatBotContainer.js';
+import chatBot from './views/chatBot.js';
+import chatBotMain from './views/chatBotMain.js';
+import doSubmit from './functions/doSubmit.js';
+import displayChat from './functions/displayChat.js';
+import kiosk from './functions/kiosk.js';
+
 document.addEventListener('DOMContentLoaded', () => {
 	let body = document.getElementsByTagName('body')[0],
-		botContainer = document.createElement('div'),
-		chatBot = document.createElement('div'),
-		chatBotMain = document.createElement('div'),
 		error = false;
-
-	botContainer.style.position = 'fixed';
-	botContainer.style.display = 'flex';
-	botContainer.style.width = '400px';
-	botContainer.style.zIndex = '3';
-	botContainer.style.bottom = '10px';
-	botContainer.style.right = '10px';
-
-	chatBot.className = 'chatBot';
-	chatBot.style.display = 'flex';
-	chatBot.style.width = '400px';
-	chatBot.style.height = '90px';
-	chatBot.style.zIndex = '3';
-	chatBot.style.backgroundImage = "url('../assets/mini.png')";
-	chatBot.style.backgroundPositionY = '-15px';
-	chatBot.style.objectFit = 'fill';
-	chatBot.style.cursor = 'pointer';
-	chatBot.style.transition = 'all 0.3s ease';
-	chatBotMain.className = 'chatBot-main';
-	chatBotMain.innerHTML = `<span id="close" class="close">x</span>
-								<div id='chatContent' style="flex-direction: column">
-									<h3>DO YOU WANT A CALLBACK ?</h3>
-									<span>Please give us your details and we will get back to you.</span>
-									<form id="chatBot-form">
-										<select class="form" id="chatBot-select">
-											<option value="I'm Interested in Content">I'm Interested in Content</option>
-											<option value="I'm Interested in Design">I'm Interested in Design</option>
-										</select>
-										<input class="form" id="chatBot-email" type="hidden" placeholder="email">
-										<input class="form" id="chatBot-phone" type="text" placeholder="phone" required>
-										<input class="form" id="chatBot-name" type="text" placeholder="name" required>
-										<button id="chatBot-submit" type="submit" class="chatBot-main-submit">Call Now</button>
-									</form>
-								</div>
-								<div id="thankContent" style="display: none; flex-direction: column">
-									<h3>Thanks You for Your Submit</h3>
-									<button id="thankContentSubmit" type="submit" class="chatBot-main-submit">Get a Callback</button>
-								</div>
-							`;
 
 	body.append(botContainer);
 	botContainer.append(chatBot);
@@ -51,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	const closeBtn = document.getElementById('close'),
 		chatBotForm = document.getElementById('chatBot-form'),
 		chatPhone = document.getElementById('chatBot-phone'),
-		chatName = document.getElementById('chatBot-name'),
 		chatContent = document.getElementById('chatContent'),
 		thankContentSubmit = document.getElementById('thankContentSubmit'),
 		thankContent = document.getElementById('thankContent'),
@@ -60,45 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		horizontal = document.getElementById('horizontal'),
 		name = document.getElementById('name'),
 		phone = document.getElementById('phone');
-
-	const displayChat = (params) => {
-		if (params === 0) {
-			console.log('minimize');
-			chatBot.style.display = 'flex';
-			chatBotMain.style.display = 'none';
-		} else {
-			console.log('maximize');
-			chatBot.style.display = 'none';
-			chatBotMain.style.display = 'flex';
-		}
-	};
-
-	const doSubmit = (params) => {
-		fetch('https://jsonplaceholder.typicode.com/posts', {
-			method: 'POST',
-			body: JSON.stringify({
-				title: params,
-				body: 'bar',
-				userId: 1
-			}),
-			headers: {
-				'Content-type': 'application/json; charset=UTF-8'
-			}
-		})
-			.then((response) => response.json())
-			.then((json) => {
-				chatContent.style.display = 'none';
-				thankContent.style.display = 'flex';
-			});
-	};
-
-	const kiosk = (params) => {
-		params.vertical === 'top' ? (botContainer.style.top = '10px') : (botContainer.style.bottom = '10px');
-		params.horizontal === 'right' ? (botContainer.style.right = '10px') : (botContainer.style.left = '10px');
-
-		chatPhone.value = params.phone;
-		chatName.value = params.name;
-	};
 
 	chatPhone.addEventListener('change', (e) =>
 		fetch(
@@ -151,10 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 
 	closeBtn.addEventListener('click', (e) => {
+		console.log('asdasdas');
 		displayChat(0);
 	});
 
 	chatBot.addEventListener('click', (e) => {
+		console.log('asdasdas');
 		displayChat(1);
 	});
 
