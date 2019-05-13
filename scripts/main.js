@@ -13,17 +13,31 @@ document.addEventListener('DOMContentLoaded', () => {
 	botContainer.append(chatBot);
 	botContainer.append(chatBotMain);
 
+	// vertical value must be top or bottom
+	// horizontal value must be right or left
+	kiosk({
+		vertical: 'bottom',
+		horizontal: 'right',
+		name: '',
+		phone: '',
+		email: 0
+	});
+
 	const closeBtn = document.getElementById('close'),
 		chatBotForm = document.getElementById('chatBot-form'),
 		chatPhone = document.getElementById('chatBot-phone'),
 		chatContent = document.getElementById('chatContent'),
 		thankContentSubmit = document.getElementById('thankContentSubmit'),
 		thankContent = document.getElementById('thankContent'),
-		widgetConf = document.getElementById('widgetConf'),
-		vertical = document.getElementById('vertical'),
-		horizontal = document.getElementById('horizontal'),
-		name = document.getElementById('name'),
-		phone = document.getElementById('phone');
+		btnTop = document.getElementById('btnTop'),
+		btnLeft = document.getElementById('btnLeft'),
+		btnRight = document.getElementById('btnRight'),
+		btnBottom = document.getElementById('btnBottom');
+
+	btnTop.addEventListener('click', () => kiosk({ vertical: 'top' }));
+	btnLeft.addEventListener('click', () => kiosk({ horizontal: 'left' }));
+	btnRight.addEventListener('click', () => kiosk({ horizontal: 'right' }));
+	btnBottom.addEventListener('click', () => kiosk({ vertical: 'bottom' }));
 
 	chatPhone.addEventListener('change', (e) =>
 		fetch(
@@ -54,42 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		!error && doSubmit(inputName.value);
 	});
 
-	widgetConf.addEventListener('submit', (e) => {
-		e.preventDefault();
+	closeBtn.addEventListener('click', (e) => displayChat(0));
 
-		if (vertical.value !== 'top' && vertical.value !== 'bottom') return alert('Invalid Vertical Value');
-		if (horizontal.value !== 'left' && horizontal.value !== 'right') return alert('Invalid Horizontal Value');
-
-		kiosk({
-			vertical: vertical.value,
-			horizontal: horizontal.value,
-			phone: phone.value,
-			name: name.value
-		});
-	});
-
-	closeBtn.addEventListener('click', (e) => {
-		console.log('asdasdas');
-		displayChat(0);
-	});
-
-	chatBot.addEventListener('click', (e) => {
-		console.log('asdasdas');
-		displayChat(1);
-	});
+	chatBot.addEventListener('click', (e) => displayChat(1));
 
 	thankContentSubmit.addEventListener('click', (e) => {
 		chatContent.style.display = 'flex';
 		thankContent.style.display = 'none';
-	});
-
-	// vertical value must be top or bottom
-	// horizontal value must be right or left
-	kiosk({
-		vertical: 'bottom',
-		horizontal: 'right',
-		name: '',
-		phone: '',
-		email: 0
 	});
 });

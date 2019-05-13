@@ -231,12 +231,24 @@ body {
 
 		&-submit {
 			margin: auto;
-			margin-top: 30px;
+			margin-top: 20px;
 			max-width: 100px;
 			padding: 10px;
 			background-color: #197b94;
 			color: #fff;
 			font-size: 18px;
+			border: none !important;
+			border-radius: 8px;
+
+		}
+
+		&-conf {
+			margin: auto;
+			max-width: 80px;
+			padding: 5px;
+			background-color: white;
+			color: #197b94;
+			font-size: 14px;
 			border: none !important;
 			border-radius: 8px;
 		}
